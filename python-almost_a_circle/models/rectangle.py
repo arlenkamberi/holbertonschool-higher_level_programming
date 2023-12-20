@@ -7,7 +7,6 @@ class Rectangle(Base):
 
     def __init__(self, width, height, x=0, y=0, id=None):
         """ Class constructor """
-
         super().__init__(id)
         self.width = width
         self.height = height
@@ -85,30 +84,25 @@ class Rectangle(Base):
         """ Returns a string representation of the Rectangle instance """
         return "[Rectangle] ({}) {}/{} - {}/{}".format(self.id, self.__x, self.__y, self.__width, self.__height)
 
-    def update(self, *args, **kwargs):
-        """ Assigns arguments to attributes, considering both no-keyword and key-worded arguments """
-        attributes = ["id", "width", "height", "x", "y"]
-        
-        if args:
-            for i, arg in enumerate(args):
-                setattr(self, attributes[i], arg)
-        else:
-            for key, value in kwargs.items():
-                if key in attributes:
-                    setattr(self, key, value)
+    def to_dictionary(self):
+        """ Returns the dictionary representation of a Rectangle """
+        return {
+            'id': self.id,
+            'width': self.width,
+            'height': self.height,
+            'x': self.x,
+            'y': self.y
+        }
 
 if __name__ == "__main__":
-    r1 = Rectangle(10, 10, 10, 10)
+    r1 = Rectangle(10, 2, 1, 9)
     print(r1)
+    r1_dictionary = r1.to_dictionary()
+    print(r1_dictionary)
+    print(type(r1_dictionary))
 
-    r1.update(height=1)
-    print(r1)
-
-    r1.update(width=1, x=2)
-    print(r1)
-
-    r1.update(y=1, width=2, x=3, id=89)
-    print(r1)
-
-    r1.update(x=1, height=2, y=3, width=4)
-    print(r1)
+    r2 = Rectangle(1, 1)
+    print(r2)
+    r2.update(**r1_dictionary)
+    print(r2)
+    print(r1 == r2)
