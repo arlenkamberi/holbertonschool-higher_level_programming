@@ -40,13 +40,23 @@ class Base:
             return []
         return json.loads(json_string)
 
+    @classmethod
+    def create(cls, **dictionary):
+        """ Returns an instance with all attributes already set """
+        if cls.__name__ == "Rectangle":
+            dummy_instance = cls(1, 1)
+        elif cls.__name__ == "Square":
+            dummy_instance = cls(1)
+        else:
+            dummy_instance = cls()
+        dummy_instance.update(**dictionary)
+        return dummy_instance
+
 if __name__ == "__main__":
-    list_input = [
-        {'id': 89, 'width': 10, 'height': 4},
-        {'id': 7, 'width': 1, 'height': 7}
-    ]
-    json_list_input = Rectangle.to_json_string(list_input)
-    list_output = Rectangle.from_json_string(json_list_input)
-    print("[{}] {}".format(type(list_input), list_input))
-    print("[{}] {}".format(type(json_list_input), json_list_input))
-    print("[{}] {}".format(type(list_output), list_output))
+    r1 = Rectangle(3, 5, 1)
+    r1_dictionary = r1.to_dictionary()
+    r2 = Rectangle.create(**r1_dictionary)
+    print(r1)
+    print(r2)
+    print(r1 is r2)
+    print(r1 == r2)
