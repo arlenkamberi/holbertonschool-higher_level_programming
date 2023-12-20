@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ Base module """
 
-class Bas:
+class Base:
     """ Base class for managing id attribute """
 
     __nb_objects = 0
