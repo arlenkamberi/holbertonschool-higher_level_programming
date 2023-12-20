@@ -1,11 +1,5 @@
 #!/usr/bin/python3
-"""
 
-A model that contains a Base class to manage
-the id attribute of all classes that extend
-from Base and avoid duplicate the same code.
-
-"""
 
 from os import path
 import json
