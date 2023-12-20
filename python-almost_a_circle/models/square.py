@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ Rectangle module """
-from models.base import Base
+#from models.base import Base
+from models.rectangle import Base
 
 class Rectangle(Base):
     """ Rectangle class, inherits from Base """
@@ -85,6 +86,7 @@ class Rectangle(Base):
         return "[Rectangle] ({}) {}/{} - {}/{}".format(self.id, self.__x, self.__y, self.__width, self.__height)
 
     def to_dictionary(self):
+        
         """ Returns the dictionary representation of a Rectangle """
         return {
             'id': self.id,
