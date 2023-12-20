@@ -1,58 +1,108 @@
 #!/usr/bin/python3
-""" Square module """
-from models.rectangle import Rectangle
+""" Rectangle module """
+from models.base import Base
 
-class Square(Rectangle):
-    """ Square class, inherits from Rectangle """
+class Rectangle(Base):
+    """ Rectangle class, inherits from Base """
 
-    def __init__(self, size, x=0, y=0, id=None):
+    def __init__(self, width, height, x=0, y=0, id=None):
         """ Class constructor """
-        super().__init__(size, size, x, y, id)
+        super().__init__(id)
+        self.width = width
+        self.height = height
+        self.x = x
+        self.y = y
 
     @property
-    def size(self):
-        """ Getter for size """
-        return self.width
+    def width(self):
+        """ Getter for width """
+        return self.__width
 
-    @size.setter
-    def size(self, value):
-        """ Setter for size """
-        self.width = value
-        self.height = value
+    @width.setter
+    def width(self, value):
+        """ Setter for width """
+        if not isinstance(value, int):
+            raise TypeError("width must be an integer")
+        elif value <= 0:
+            raise ValueError("width must be > 0")
+        self.__width = value
 
-    def update(self, *args, **kwargs):
-        """ Assigns attributes to the instance based on *args and **kwargs """
-        attributes = ["id", "size", "x", "y"]
-        
-        if args:
-            for i, arg in enumerate(args):
-                setattr(self, attributes[i], arg)
-        else:
-            for key, value in kwargs.items():
-                if key in attributes:
-                    setattr(self, key, value)
+    @property
+    def height(self):
+        """ Getter for height """
+        return self.__height
+
+    @height.setter
+    def height(self, value):
+        """ Setter for height """
+        if not isinstance(value, int):
+            raise TypeError("height must be an integer")
+        elif value <= 0:
+            raise ValueError("height must be > 0")
+        self.__height = value
+
+    @property
+    def x(self):
+        """ Getter for x """
+        return self.__x
+
+    @x.setter
+    def x(self, value):
+        """ Setter for x """
+        if not isinstance(value, int):
+            raise TypeError("x must be an integer")
+        elif value < 0:
+            raise ValueError("x must be >= 0")
+        self.__x = value
+
+    @property
+    def y(self):
+        """ Getter for y """
+        return self.__y
+
+    @y.setter
+    def y(self, value):
+        """ Setter for y """
+        if not isinstance(value, int):
+            raise TypeError("y must be an integer")
+        elif value < 0:
+            raise ValueError("y must be >= 0")
+        self.__y = value
+
+    def area(self):
+        """ Returns the area value of the Rectangle instance """
+        return self.__width * self.__height
+
+    def display(self):
+        """ Prints the Rectangle instance with the character #, considering x and y """
+        for _ in range(self.__y):
+            print()
+        for _ in range(self.__height):
+            print(" " * self.__x + "#" * self.__width)
+
+    def __str__(self):
+        """ Returns a string representation of the Rectangle instance """
+        return "[Rectangle] ({}) {}/{} - {}/{}".format(self.id, self.__x, self.__y, self.__width, self.__height)
+
+    def to_dictionary(self):
+        """ Returns the dictionary representation of a Rectangle """
+        return {
+            'id': self.id,
+            'width': self.width,
+            'height': self.height,
+            'x': self.x,
+            'y': self.y
+        }
 
 if __name__ == "__main__":
-    s1 = Square(5)
-    print(s1)
+    r1 = Rectangle(10, 2, 1, 9)
+    print(r1)
+    r1_dictionary = r1.to_dictionary()
+    print(r1_dictionary)
+    print(type(r1_dictionary))
 
-    s1.update(10)
-    print(s1)
-
-    s1.update(1, 2)
-    print(s1)
-
-    s1.update(1, 2, 3)
-    print(s1)
-
-    s1.update(1, 2, 3, 4)
-    print(s1)
-
-    s1.update(x=12)
-    print(s1)
-
-    s1.update(size=7, y=1)
-    print(s1)
-
-    s1.update(size=7, id=89, y=1)
-    print(s1)
+    r2 = Rectangle(1, 1)
+    print(r2)
+    r2.update(**r1_dictionary)
+    print(r2)
+    print(r1 == r2)
